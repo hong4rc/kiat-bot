@@ -8,8 +8,9 @@
   "author": "Hongarc",
   "license": "MIT",
   "dependencies": {
+    "apiai": "^4.0.3",
     "kiat-log": "^0.1.0",
-    "node-facebook": "^0.1.1"
+    "node-facebook": "^0.2.1"
   },
   "devDependencies": {
     "eslint": "^5.4.0",
