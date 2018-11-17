@@ -47,8 +47,10 @@ login(user)
                     break;
                 case 'message':
                     api.markAsRead(msg.threadId);
-                    chat(msg.body, msg.threadId)
-                        .then(res => res && api.sendMessage(res, msg.threadId), log.error);
+                    if (msg.threadId === msg.senderId) {
+                        chat(msg.body, msg.threadId)
+                            .then(res => res && api.sendMessage(res, msg.threadId), log.error);
+                    }
                     break;
                 default:
 
