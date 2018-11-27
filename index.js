@@ -6,6 +6,7 @@ const chat = require('./chat');
 
 const timer = require('./timer');
 const milis = 1000;
+const delta = 5;
 
 // let user = {email: 'your username/id', pass: 'your pass'};
 
@@ -32,7 +33,7 @@ login(user)
         const timerBio = () => {
             timer.tick();
             nextSeconds = timer.getNext();
-            api.changeBio(`${timer.getTime()}\nNước sông chảy cạn,\ncá tự bơi đi chỗ khác.....,`, nextSeconds)
+            api.changeBio(`${timer.getTime()}\nNước sông chảy cạn,\ncá tự bơi đi chỗ khác.....,`, nextSeconds + delta)
                 .then(() => setTimeout(timerBio, nextSeconds * milis));
         };
         timerBio();
