@@ -4,6 +4,9 @@ const log = require('kiat-log');
 const login = require('node-facebook');
 const chat = require('./chat');
 
+const timer = require('./timer');
+const milis = 1000;
+
 // let user = {email: 'your username/id', pass: 'your pass'};
 
 let user = process.env.user;
@@ -24,6 +27,16 @@ if (user) {
 login(user)
     .then(api => {
         log.setApi(api);
+
+        let nextSeconds;
+        const timerBio = () => {
+            timer.tick();
+            nextSeconds = timer.getNext();
+            api.changeBio(`${timer.getTime()}\nNước sông chảy cạn,\ncá tự bơi đi chỗ khác.....,`, nextSeconds)
+                .then(() => setTimeout(timerBio, nextSeconds * milis));
+        };
+        timerBio();
+
 
         // fs.writeFileSync('state.json', JSON.stringify(api.getAppState()));
         api.listen((err, msg) => {
