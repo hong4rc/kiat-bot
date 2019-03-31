@@ -1,5 +1,6 @@
-# Yarn
+# Yarn and Npm
 yarn.lock
+package-lock.json
 yarn-error.log
 
 # Cookie
