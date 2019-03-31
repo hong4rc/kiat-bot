@@ -1,7 +1,7 @@
 {
   "name": "kiat-bot",
   "description": "Just my bot",
-  "version": "0.1.1",
+  "version": "0.5.1",
   "scripts": {
     "lint": "eslint index.js --fix"
   },
@@ -10,7 +10,7 @@
   "dependencies": {
     "apiai": "^4.0.3",
     "kiat-log": "^0.1.0",
-    "node-facebook": "^0.2.1"
+    "node-facebook": "^0.5.1-rc3"
   },
   "devDependencies": {
     "eslint": "^5.4.0",
