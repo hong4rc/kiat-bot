@@ -10,7 +10,7 @@
   "dependencies": {
     "apiai": "^4.0.3",
     "kiat-log": "^0.1.0",
-    "node-facebook": "^0.5.1-rc3"
+    "node-facebook": "^0.5.2"
   },
   "devDependencies": {
     "eslint": "^5.4.0",
