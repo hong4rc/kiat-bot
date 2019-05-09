@@ -3,6 +3,7 @@
   "description": "Just my bot",
   "version": "0.5.1",
   "scripts": {
+    "start": "node index.js",
     "lint": "eslint index.js --fix"
   },
   "author": "Hongarc",
