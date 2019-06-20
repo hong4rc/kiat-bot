@@ -1,4 +1,3 @@
-
 const log = require('kiat-log');
 const Facebook = require('node-facebook');
 const chat = require('./chat');
@@ -37,7 +36,9 @@ const me = new Facebook({ state });
     api.markAsRead(message.threadId);
     if (message.threadId === message.senderId) {
       const data = await chat(message.body, message.threadId);
-      api.sendMessage({ body: data }, message.threadId);
+      if (data) {
+        api.sendMessage({ body: data }, message.threadId);
+      }
     }
   });
 })(me);
