@@ -4,13 +4,14 @@
   "version": "0.5.1",
   "scripts": {
     "start": "node index.js",
-    "lint": "eslint **.js --fix"
+    "lint": "eslint **/*.js --fix"
   },
   "author": "Hongarc",
   "license": "MIT",
   "dependencies": {
     "apiai": "^4.0.3",
     "kiat-log": "^0.1.0",
+    "mongoose": "^5.6.3",
     "node-facebook": "^0.5.9-alpha.1"
   },
   "devDependencies": {

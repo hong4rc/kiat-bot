@@ -1,29 +1,51 @@
 const log = require('kiat-log');
 const Facebook = require('node-facebook');
+const ticker = require('./ticker');
 const chat = require('./chat');
+const { connect } = require('./mongoose');
+const { get } = require('./mongoose/controller/good-morning');
 
-const timer = require('./timer');
-
-const milis = 1000;
-const delta = 5;
+const Timer = require('./timer');
 
 // let user = {email: 'your username/id', pass: 'your pass'};
 
 const state = JSON.parse(process.env.user);
 
-const me = new Facebook({ state });
-(async (user) => {
-  const api = await user.login();
+Promise.all([
+  new Facebook({ state }).login(),
+  connect(),
+]).then(async ([api]) => {
   api.listen();
 
-  let nextSeconds;
-  const timerBio = () => {
-    timer.tick();
-    nextSeconds = timer.getNext();
-    api.changeBio(`${timer.getTime()}\nNước sông chảy cạn,\ncá tự bơi đi chỗ khác :)`, nextSeconds + delta)
-      .then(() => setTimeout(timerBio, nextSeconds * milis));
+  const bioTimer = new Timer((now) => {
+    now.setMilliseconds(0);
+    now.setSeconds(0);
+    now.setMinutes(now.getMinutes() + 1);
+  });
+  const changeBio = () => api.changeBio(`${Timer.offset()}\nNước sông chảy cạn,\ncá tự bơi đi chỗ khác :)`, 60);
+  ticker(changeBio, () => bioTimer.next());
+
+  const hiTimer = new Timer((now) => {
+    now.setMilliseconds(0);
+    now.setSeconds(0);
+    now.setMinutes(0);
+    if (now.getHours() >= 6) {
+      now.setDate(now.getDate() + 1);
+    }
+    now.setHours(6);
+  });
+  const hiMorning = () => {
+    // todo: load from db
+    const users = JSON.parse(process.env.FRIENDS) || [];
+    const send = (id) => {
+      setTimeout(async () => {
+        api.sendMessage({ body: await get() }, id);
+      }, Math.random() * 180000);
+    };
+    users.forEach(send);
+    return Promise.resolve();
   };
-  timerBio();
+  ticker(hiMorning, () => hiTimer.next());
 
   api.on('presence', (message) => {
     log.info(message.userId, message.statUser ? 'online' : 'idle');
@@ -41,4 +63,4 @@ const me = new Facebook({ state });
       }
     }
   });
-})(me);
+});

@@ -1,20 +1,22 @@
 const min2Sec = 60;
-const myTimezoneOffset = -420;
 const lDisplay = 2;
 
-let now;
-let nextSeconds;
+module.exports = class Timer {
+  constructor(tick) {
+    this.tick = tick;
+  }
 
-const getTime = () => `${now.getHours().toString().padStart(lDisplay, '0')}:${now.getMinutes().toString().padStart(lDisplay, '0')}`;
-const getNext = () => nextSeconds;
-const tick = () => {
-  now = new Date();
-  nextSeconds = min2Sec - now.getSeconds();
-  now.setMinutes(now.getMinutes() + now.getTimezoneOffset() - myTimezoneOffset);
-};
+  next() {
+    const now = new Date();
+    const n = Number(now);
+    this.tick(now);
+    return now - n;
+  }
 
-module.exports = {
-  getTime,
-  getNext,
-  tick,
+  static offset(timezone = 7) {
+    const now = new Date();
+    const newDate = new Date(now);
+    newDate.setMinutes(now.getTimezoneOffset() + min2Sec * timezone);
+    return `${now.getHours().toString().padStart(lDisplay, '0')}:${now.getMinutes().toString().padStart(lDisplay, '0')}`;
+  }
 };
