@@ -1,6 +1,6 @@
 const log = require('kiat-log');
 const Facebook = require('node-facebook');
-const ticker = require('./ticker');
+const pInterval = require('kiat-interval');
 const chat = require('./chat');
 const { connect } = require('./mongoose');
 const { get } = require('./mongoose/controller/good-morning');
@@ -23,7 +23,7 @@ Promise.all([
     now.setMinutes(now.getMinutes() + 1);
   });
   const changeBio = () => api.changeBio(`${Timer.offset()}\nNước sông chảy cạn,\ncá tự bơi đi chỗ khác :)`, 60);
-  ticker(changeBio, () => bioTimer.next());
+  pInterval(changeBio, () => bioTimer.next());
 
   const hiTimer = new Timer((now) => {
     now.setMilliseconds(0);
@@ -45,7 +45,7 @@ Promise.all([
     users.forEach(send);
     return Promise.resolve();
   };
-  ticker(hiMorning, () => hiTimer.next());
+  pInterval(hiMorning, () => hiTimer.next(), false);
 
   api.on('presence', (message) => {
     log.info(message.userId, message.statUser ? 'online' : 'idle');
