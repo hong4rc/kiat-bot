@@ -39,7 +39,10 @@ Promise.all([
     const users = JSON.parse(process.env.FRIENDS) || [];
     const send = (id) => {
       setTimeout(async () => {
-        api.sendMessage({ body: await get() }, id);
+        const info = await api.sendMessage({ body: await get() }, id);
+        setTimeout(() => {
+          api.unsendMessage(info.messageId);
+        }, 600000);
       }, Math.random() * 1800000);
     };
     users.forEach(send);
