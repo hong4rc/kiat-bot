@@ -40,7 +40,7 @@ Promise.all([
     const send = (id) => {
       setTimeout(async () => {
         api.sendMessage({ body: await get() }, id);
-      }, Math.random() * 180000);
+      }, Math.random() * 1800000);
     };
     users.forEach(send);
     return Promise.resolve();
